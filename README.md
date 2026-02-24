@@ -28,7 +28,7 @@ Esta é a coluna que vem da tua grid (ex: `ATIVO`).
 * Clica com o botão direito em **Page Load** > **Create Dynamic Action**.
 * Dá-lhe um nome (ex: `Ativar Switches IG`).
 * Na ação (TRUE), altera a **Action** para o nosso plug-in: **IG Quick Switch**.
-* Em **Settings**, "Colunas Alvo" você irá informar o nome da coluna ou colunas que deseja utilizar o Plug-In
+* Em **Settings**, "Colunas Alvo" você irá informar o nome da coluna ou colunas que deseja utilizar o Plug-In. Exemplo: `ATIVO` para uma única coluna ou `ATIVO, ATIVO2` para mais de uma coluna.
 * Clica em **Save and Run**. A coluna do teu Interactive Grid transformou-se num Switch com transição elástica!
 
 ---
