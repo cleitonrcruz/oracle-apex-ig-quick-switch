@@ -15,7 +15,7 @@ O Plug-in elimina a necessidade de criar colunas virtuais ou expressões HTML ma
 ## 📥 Etapa 1: Instalação do Plug-in
 
 1. Na tua aplicação APEX, vai a **Shared Components** > **Plug-ins**.
-2. Clica em **Import** e faz o upload do ficheiro do plug-in (`.sql`).
+2. Clica em **Import** e faz o upload do ficheiro do plug-in (`dynamic_action_plugin_ig_quick_switch.sql`).
 3. Segue os passos do assistente e clica em **Install Plug-in**.
 
 ---
@@ -25,16 +25,16 @@ O Plug-in elimina a necessidade de criar colunas virtuais ou expressões HTML ma
 A implementação na página demora menos de 1 minuto:
 
 ### Passo 2.1: Prepara a Coluna de Dados
-Esta é a coluna que vem da tua Source (ex: `ATIVO`).
+Esta é a coluna que vem da tua grid (ex: `ATIVO`).
 * Seleciona a coluna de dados na árvore de componentes.
-* **Type:** Mantém como `Text Field` ou `Display Only` (Para o APEX a renderizar no ecrã).
-* **Settings:** Desliga a propriedade **`Value Protected`** (Isto é obrigatório para que a alteração visual passe a validação de segurança no momento de gravar).
+* **Type:** Mantém como `Text Field` (Para o APEX a renderizar no ecrã).
 
 ### Passo 2.2: O Motor do Switch (Dynamic Action)
 * Vai à aba **Dynamic Actions** (ícone do raio).
 * Clica com o botão direito em **Page Load** > **Create Dynamic Action**.
 * Dá-lhe um nome (ex: `Ativar Switches IG`).
 * Na ação (TRUE), altera a **Action** para o nosso plug-in: **IG Quick Switch**.
+* Em **Settings**, "Colunas Alvo" você irá informar o nome da coluna ou colunas que deseja utilizar o Plug-In
 * Clica em **Save and Run**. A coluna do teu Interactive Grid transformou-se num Switch com transição elástica!
 
 ---
