@@ -15,11 +15,13 @@ function inicializarIgSwitch(colunasAlvoStr) {
     if (!$('body').data('plugin-ig-switch-init')) {
         $('body').data('plugin-ig-switch-init', true);
 
-        $('body').on('click', '.clica-switch', function (e) {
+        // Delegação de clique agressiva: intercepta na célula (td) para travar o motor do APEX imediatamente
+        $('body').on('click', 'td:has(.clica-switch), .clica-switch', function (e) {
             e.preventDefault();
-            e.stopPropagation(); // Impede a grelha de entrar em modo de edição!
+            e.stopPropagation(); // Impede a grelha de entrar em modo de edição e consumir o clique
+            e.stopImmediatePropagation();
 
-            var $btn = $(this);
+            var $btn = $(this).hasClass('clica-switch') ? $(this) : $(this).find('.clica-switch');
             var idDaRegiao = $btn.closest('.a-IG').parent().attr('id');
             var grid = apex.region(idDaRegiao).widget().interactiveGrid("getViews", "grid");
             var model = grid.model;
@@ -106,9 +108,14 @@ function inicializarIgSwitch(colunasAlvoStr) {
                     }
 
                     var col = columns.find(function (c) { return c.property === colNome; });
-                    if (col && (!col.cellTemplate || col.cellTemplate.indexOf('meu-switch-visual') === -1)) {
-                        col.cellTemplate = '<div class="meu-switch-visual status-&' + colNome + '. clica-switch" data-coluna="' + colNome + '" style="cursor: pointer;"></div>';
-                        modificou = true;
+                    if (col) {
+                        // Trava a coluna para readonly no front-end para impedir o Switch nativo do APEX de roubar o foco
+                        col.readonly = true;
+
+                        if (!col.cellTemplate || col.cellTemplate.indexOf('meu-switch-visual') === -1) {
+                            col.cellTemplate = '<div class="meu-switch-visual status-&' + colNome + '. clica-switch" data-coluna="' + colNome + '" style="cursor: pointer;"></div>';
+                            modificou = true;
+                        }
                     }
                 });
 
