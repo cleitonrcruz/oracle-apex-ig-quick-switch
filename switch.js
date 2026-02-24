@@ -108,14 +108,9 @@ function inicializarIgSwitch(colunasAlvoStr) {
                     }
 
                     var col = columns.find(function (c) { return c.property === colNome; });
-                    if (col) {
-                        // Trava a coluna para readonly no front-end para impedir o Switch nativo do APEX de roubar o foco
-                        col.readonly = true;
-
-                        if (!col.cellTemplate || col.cellTemplate.indexOf('meu-switch-visual') === -1) {
-                            col.cellTemplate = '<div class="meu-switch-visual status-&' + colNome + '. clica-switch" data-coluna="' + colNome + '" style="cursor: pointer;"></div>';
-                            modificou = true;
-                        }
+                    if (col && (!col.cellTemplate || col.cellTemplate.indexOf('meu-switch-visual') === -1)) {
+                        col.cellTemplate = '<div class="meu-switch-visual status-&' + colNome + '. clica-switch" data-coluna="' + colNome + '" style="cursor: pointer;"></div>';
+                        modificou = true;
                     }
                 });
 
