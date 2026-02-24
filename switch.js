@@ -53,7 +53,7 @@ function inicializarIgSwitch(colunasAlvoStr) {
         // Subscreve ao evento nativo do Model de quando um novo Record é inserido na memória
         model.subscribe({
             onChange: function (type, change) {
-                if (type === "addData") {
+                if (type === "insert") {
                     var newRecord = change.record;
                     if (newRecord) {
                         pColunas.forEach(function (colNome) {
