@@ -48,52 +48,54 @@ function inicializarIgSwitch(colunasAlvoStr) {
         });
     }
 
-    // 2. Injetar o cellTemplate usando Polling (espera segura)
-    // O APEX às vezes demora a construir o DOM da grid inteira. Vamos tentar até 10 vezes (max 2 seg).
+    // 2. Injetar o cellTemplate na grelha 
+    // Utilizamos execução IMEDIATA + fallback de Polling ultra-rápido para evitar o "piscar" visual (FOUC).
     $('.a-IG').each(function () {
         var regionId = $(this).parent().attr('id');
-        var tentativas = 0;
 
-        var intervalId = setInterval(function () {
-            tentativas++;
-
-            // Tenta obter a instância da Region e do Widget interativo
+        function aplicarTemplate() {
             var region = apex.region(regionId);
-            if (region && region.widget()) {
-                var ig = region.widget().data("apex-interactiveGrid");
+            if (!region || !region.widget()) return false;
 
-                // Só avançamos se a IG estiver 100% instanciada no DOM
-                if (ig) {
-                    clearInterval(intervalId); // Termina a espera!
+            var ig = region.widget().data("apex-interactiveGrid");
+            if (!ig) return false;
 
-                    var viewGrid = region.widget().interactiveGrid('getViews', 'grid');
-                    if (viewGrid && viewGrid.view$) {
-                        var columns = viewGrid.view$.grid('getColumns');
-                        var modificou = false;
+            var viewGrid = region.widget().interactiveGrid('getViews', 'grid');
+            if (viewGrid && viewGrid.view$) {
+                var columns = viewGrid.view$.grid('getColumns');
+                var modificou = false;
 
-                        colunas.forEach(function (colNome) {
-                            var col = columns.find(function (c) { return c.property === colNome; });
-
-                            // Injeta o nosso HTML da bolinha
-                            if (col && (!col.cellTemplate || col.cellTemplate.indexOf('meu-switch-visual') === -1)) {
-                                col.cellTemplate = '<div class="meu-switch-visual status-&' + colNome + '. clica-switch" data-coluna="' + colNome + '" style="cursor: pointer;"></div>';
-                                modificou = true;
-                            }
-                        });
-
-                        if (modificou) {
-                            viewGrid.view$.grid("refreshColumns");
-                            viewGrid.view$.grid("refresh");
-                        }
+                colunas.forEach(function (colNome) {
+                    var col = columns.find(function (c) { return c.property === colNome; });
+                    if (col && (!col.cellTemplate || col.cellTemplate.indexOf('meu-switch-visual') === -1)) {
+                        col.cellTemplate = '<div class="meu-switch-visual status-&' + colNome + '. clica-switch" data-coluna="' + colNome + '" style="cursor: pointer;"></div>';
+                        modificou = true;
                     }
+                });
+
+                if (modificou) {
+                    // Agendamos o refresh apenas das linhas de dados (evita desalinhar o cabeçalho 'stickyWidget')
+                    setTimeout(function () {
+                        try {
+                            viewGrid.view$.grid("refresh");
+                        } catch (e) { }
+                    }, 50);
                 }
+                return true; // Sucesso / Já estava processado
             }
+            return false;
+        }
 
-            // Timeout de segurança: Se a grelha nunca aparecer, desistimos após 10 tentativas.
-            if (tentativas >= 10) {
-                clearInterval(intervalId);
-            }
-
-        }, 200); // Verifica a cada 200 milissegundos
+        // Tenta aplicar o template IMEDIATAMENTE (antes da query chegar do backend)
+        if (!aplicarTemplate()) {
+            // Se a grelha for pesada/adormecida: polling furioso a 20ms c/ safety timeout (1.5 seg)
+            var tentativas = 0;
+            var intervalId = setInterval(function () {
+                tentativas++;
+                if (aplicarTemplate() || tentativas >= 75) {
+                    clearInterval(intervalId);
+                }
+            }, 20);
+        }
     });
 }
