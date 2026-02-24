@@ -60,8 +60,8 @@ function inicializarIgSwitch(colunasAlvoStr) {
                             var fieldMeta = model.getFieldKey(colNome);
                             if (fieldMeta) {
                                 var val = model.getValue(newRecord, colNome);
-                                // Se a nova linha veio vazia ou null, escreve 'S' nela por defeito!
-                                if (val === null || val === undefined || val === '') {
+                                // Se a nova linha veio vazia ou com o default 'N' (Off do APEX nativo Switch), escreve 'S' nela por defeito!
+                                if (val === null || val === undefined || val === '' || val === 'N') {
                                     model.setValue(newRecord, colNome, 'S');
                                 }
                             }
