@@ -15,13 +15,11 @@ function inicializarIgSwitch(colunasAlvoStr) {
     if (!$('body').data('plugin-ig-switch-init')) {
         $('body').data('plugin-ig-switch-init', true);
 
-        // Delegação de clique agressiva: intercepta na célula (td) para travar o motor do APEX imediatamente
-        $('body').on('click', 'td:has(.clica-switch), .clica-switch', function (e) {
+        $('body').on('click', '.clica-switch', function (e) {
             e.preventDefault();
-            e.stopPropagation(); // Impede a grelha de entrar em modo de edição e consumir o clique
-            e.stopImmediatePropagation();
+            e.stopPropagation(); // Impede a grelha de entrar em modo de edição!
 
-            var $btn = $(this).hasClass('clica-switch') ? $(this) : $(this).find('.clica-switch');
+            var $btn = $(this);
             var idDaRegiao = $btn.closest('.a-IG').parent().attr('id');
             var grid = apex.region(idDaRegiao).widget().interactiveGrid("getViews", "grid");
             var model = grid.model;
@@ -46,35 +44,6 @@ function inicializarIgSwitch(colunasAlvoStr) {
                 setTimeout(function () {
                     model.setValue(record, nomeColuna, novoValor);
                 }, 300);
-            }
-        });
-    }
-
-    // Função auxiliar híbrida: Atrasa a injeção do 'S' para esmagar os Defaults forçados pelos componentes APEX Nativos (Type: Switch)
-    function forcarDefaultON(model, pColunas) {
-        model.subscribe({
-            onChange: function (type, change) {
-                if (type === "insert") {
-                    var newRecord = change.record;
-                    if (newRecord) {
-                        pColunas.forEach(function (colNome) {
-                            var fieldMeta = model.getFieldKey(colNome);
-                            if (fieldMeta) {
-                                // 50ms de atraso: Permite ao APEX Native Switch inicializar-se com 'N' (Off), para depois o esmagarmos letalmente com 'S' (ON)
-                                setTimeout(function () {
-                                    var val = model.getValue(newRecord, colNome);
-                                    if (val === null || val === undefined || val === '' || val === 'N') {
-                                        model.setValue(newRecord, colNome, 'S');
-
-                                        // Garante um micro-refresh visual caso a célula tenha encravado no modo nativo
-                                        var $btn = $(".clica-switch[data-coluna='" + colNome + "']");
-                                        $btn.removeClass('status-S status-N status-\\.').addClass('status-S');
-                                    }
-                                }, 50);
-                            }
-                        });
-                    }
-                }
             }
         });
     }
@@ -121,12 +90,6 @@ function inicializarIgSwitch(colunasAlvoStr) {
                             viewGrid.view$.grid("refresh");
                         } catch (e) { }
                     }, 50);
-                }
-
-                // Proteção Dupla Nível 2: Escutador de Overrides contra componentes pesados APEX Nativos (Type: Switch)
-                if (!region.widget().data('switch-default-bound')) {
-                    region.widget().data('switch-default-bound', true);
-                    forcarDefaultON(viewGrid.model, colunas);
                 }
 
                 return true; // Sucesso / Já estava processado
