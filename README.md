@@ -4,14 +4,6 @@
 
 ---
 
-## 🛠️ O "Sweet Spot" (Arquitetura)
-
-O Plug-in elimina a necessidade de criar colunas virtuais ou expressões HTML manuais.
-1. **Coluna de Dados:** O valor real gerido pela tua *Query* SQL (`S` ou `N`).
-2. **Ação Dinâmica (Plug-in):** Lê as colunas alvo, injeta o botão Switch nativamente (`cellTemplate`) e sincroniza os cliques com o modelo do JavaScript do APEX de forma invisível.
-
----
-
 ## 📥 Etapa 1: Instalação do Plug-in
 
 1. Na tua aplicação APEX, vai a **Shared Components** > **Plug-ins**.
