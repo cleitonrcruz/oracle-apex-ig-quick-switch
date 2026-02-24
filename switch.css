@@ -1,0 +1,61 @@
+/* 1. Estilo base do switch (Quando o valor for N - Desligado) */
+.meu-switch-visual {
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    border-radius: 20px;
+    background-color: #f0f0f0;
+    position: relative;
+    box-shadow: inset 0 0 0 1px #e0e0e0;
+    vertical-align: middle;
+    transition: all 0.3s ease; /* Adicionada transição suave de cor de fundo */
+}
+
+/* 2. Desenho da bolinha branca do switch */
+.meu-switch-visual::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    transition: left 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); /* Transição suave e elástica só para a posição */
+}
+
+/* 3. Estilo de quando está Ligado (Valor = S) */
+.meu-switch-visual.status-S {
+    background-color: #005fcc; /* Cor azul clássica do APEX */
+    box-shadow: inset 0 0 0 1px #005fcc;
+}
+
+/* 4. Move a bolinha para a direita quando Ligado */
+.meu-switch-visual.status-S::after {
+    left: calc(100% - 22px);
+}
+
+/* 5. Escreve o texto "ON" dentro do botão azul */
+.meu-switch-visual.status-S::before {
+    content: 'ON';
+    position: absolute;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    top: 6px;
+    left: 8px;
+    font-family: Arial, sans-serif;
+}
+
+/* 6. Escreve o texto "OFF" dentro do botão cinza */
+.meu-switch-visual.status-N::before {
+    content: 'OFF';
+    position: absolute;
+    color: #555555; /* Cor cinza escuro para dar contraste com o fundo claro */
+    font-size: 10px;
+    font-weight: bold;
+    top: 6px;
+    right: 8px; /* Encosta o texto à direita */
+    font-family: Arial, sans-serif;
+}
