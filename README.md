@@ -18,12 +18,17 @@ Este guia explica como importar e utilizar o plug-in "IG Quick Switch". Este plu
 
 A implementação na página demora menos de 1 minuto:
 
-### Passo 2.1: Prepara a Coluna de Dados
-Esta é a coluna que vem da tua grid (ex: `ATIVO`).
+### Passo 2.1: Prepara a Interactive Grid
+* Region > Type > Interactive Grid.
+* Appearance > Template > "Interactive Report".
+* Confira se sua Interactive Grid está Edit Enabled e Update Row.
+
+### Passo 2.2: Prepara a Coluna de Dados
+Esta é a coluna que vem da tua Interactive Grid (ex: `ATIVO`).
 * Seleciona a coluna de dados na árvore de componentes.
 * **Type:** Mantém como `Text Field` (Para o APEX a renderizar no ecrã).
 
-### Passo 2.2: O Motor do Switch (Dynamic Action)
+### Passo 2.3: O Motor do Switch (Dynamic Action)
 * Vai à aba **Dynamic Actions** (ícone do raio).
 * Clica com o botão direito em **Page Load** > **Create Dynamic Action**.
 * Dá-lhe um nome (ex: `Ativar Switches IG`).
