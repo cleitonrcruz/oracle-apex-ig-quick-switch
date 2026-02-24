@@ -60,7 +60,7 @@ function inicializarIgSwitch(colunasAlvoStr) {
                             var fieldMeta = model.getFieldKey(colNome);
                             if (fieldMeta) {
                                 var val = model.getValue(newRecord, colNome);
-                                // Se a nova linha veio vazia ou nula (Comportamento 'Text Field'), escreve 'S'
+                                // Se a nova linha veio vazia ou null, escreve 'S' nela por defeito!
                                 if (val === null || val === undefined || val === '') {
                                     model.setValue(newRecord, colNome, 'S');
                                 }
