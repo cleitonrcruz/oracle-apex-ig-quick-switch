@@ -48,6 +48,30 @@ function inicializarIgSwitch(colunasAlvoStr) {
         });
     }
 
+    // Função auxiliar para forçar DEFAULT VALUE 'S' em novas linhas sem valor
+    function forcarDefaultON(model, pColunas) {
+        // Subscreve ao evento nativo do Model de quando um novo Record é inserido na memória
+        model.subscribe({
+            onChange: function (type, change) {
+                if (type === "addData") {
+                    var newRecord = change.record;
+                    if (newRecord) {
+                        pColunas.forEach(function (colNome) {
+                            var fieldMeta = model.getFieldKey(colNome);
+                            if (fieldMeta) {
+                                var val = model.getValue(newRecord, colNome);
+                                // Se a nova linha veio vazia ou null, escreve 'S' nela por defeito!
+                                if (val === null || val === undefined || val === '') {
+                                    model.setValue(newRecord, colNome, 'S');
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
     // 2. Injetar o cellTemplate na grelha 
     // Utilizamos execução IMEDIATA + fallback de Polling ultra-rápido para evitar o "piscar" visual (FOUC).
     $('.a-IG').each(function () {
@@ -81,6 +105,13 @@ function inicializarIgSwitch(colunasAlvoStr) {
                         } catch (e) { }
                     }, 50);
                 }
+
+                // Aplica a regra de forçar default ON para Novas Linhas no model associado a este Widget
+                if (!region.widget().data('switch-default-bound')) {
+                    region.widget().data('switch-default-bound', true);
+                    forcarDefaultON(viewGrid.model, colunas);
+                }
+
                 return true; // Sucesso / Já estava processado
             }
             return false;
