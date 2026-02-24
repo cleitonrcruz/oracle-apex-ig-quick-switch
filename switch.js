@@ -48,29 +48,52 @@ function inicializarIgSwitch(colunasAlvoStr) {
         });
     }
 
-    // 2. Injetar o cellTemplate nas colunas indicadas em todas as IGs (onde existam)
+    // 2. Injetar o cellTemplate usando Polling (espera segura)
+    // O APEX às vezes demora a construir o DOM da grid inteira. Vamos tentar até 10 vezes (max 2 seg).
     $('.a-IG').each(function () {
         var regionId = $(this).parent().attr('id');
-        var viewGrid = apex.region(regionId).widget().interactiveGrid('getViews', 'grid');
+        var tentativas = 0;
 
-        if (viewGrid && viewGrid.view$) {
-            var columns = viewGrid.view$.grid('getColumns');
-            var modificou = false;
+        var intervalId = setInterval(function () {
+            tentativas++;
 
-            colunas.forEach(function (colNome) {
-                var col = columns.find(function (c) { return c.property === colNome; });
-                // Se a coluna existe e ainda não tem o nosso template
-                if (col && (!col.cellTemplate || col.cellTemplate.indexOf('meu-switch-visual') === -1)) {
-                    col.cellTemplate = '<div class="meu-switch-visual status-&' + colNome + '. clica-switch" data-coluna="' + colNome + '" style="cursor: pointer;"></div>';
-                    modificou = true;
+            // Tenta obter a instância da Region e do Widget interativo
+            var region = apex.region(regionId);
+            if (region && region.widget()) {
+                var ig = region.widget().data("apex-interactiveGrid");
+
+                // Só avançamos se a IG estiver 100% instanciada no DOM
+                if (ig) {
+                    clearInterval(intervalId); // Termina a espera!
+
+                    var viewGrid = region.widget().interactiveGrid('getViews', 'grid');
+                    if (viewGrid && viewGrid.view$) {
+                        var columns = viewGrid.view$.grid('getColumns');
+                        var modificou = false;
+
+                        colunas.forEach(function (colNome) {
+                            var col = columns.find(function (c) { return c.property === colNome; });
+
+                            // Injeta o nosso HTML da bolinha
+                            if (col && (!col.cellTemplate || col.cellTemplate.indexOf('meu-switch-visual') === -1)) {
+                                col.cellTemplate = '<div class="meu-switch-visual status-&' + colNome + '. clica-switch" data-coluna="' + colNome + '" style="cursor: pointer;"></div>';
+                                modificou = true;
+                            }
+                        });
+
+                        if (modificou) {
+                            viewGrid.view$.grid("refreshColumns");
+                            viewGrid.view$.grid("refresh");
+                        }
+                    }
                 }
-            });
-
-            if (modificou) {
-                // Força o IG a assumir o novo cellTemplate visual
-                viewGrid.view$.grid("refreshColumns");
-                viewGrid.view$.grid("refresh");
             }
-        }
+
+            // Timeout de segurança: Se a grelha nunca aparecer, desistimos após 10 tentativas.
+            if (tentativas >= 10) {
+                clearInterval(intervalId);
+            }
+
+        }, 200); // Verifica a cada 200 milissegundos
     });
 }
