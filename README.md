@@ -26,7 +26,8 @@ A implementação na página demora menos de 1 minuto:
 ### Passo 2.2: Prepara a Coluna de Dados
 Esta é a coluna que vem da tua Interactive Grid (ex: `ATIVO`).
 * Seleciona a coluna de dados na árvore de componentes.
-* **Type:** Mantém como `Text Field` (Para o APEX a renderizar no ecrã).
+* **Type:** Selecione Switch.
+* **Settings:** Use Defaults Off. On Value S e Off Value N. 
 
 ### Passo 2.3: O Motor do Switch (Dynamic Action)
 * Vai à aba **Dynamic Actions** (ícone do raio).
