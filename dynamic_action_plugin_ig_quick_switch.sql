@@ -20,28 +20,28 @@ begin
 wwv_flow_imp.import_begin (
  p_version_yyyy_mm_dd=>'2024.11.30'
 ,p_release=>'24.2.13'
-,p_default_workspace_id=>10577852253838163
-,p_default_application_id=>102
-,p_default_id_offset=>0
-,p_default_owner=>'WKSP_TESTES'
+,p_default_workspace_id=>7857817067463748
+,p_default_application_id=>100
+,p_default_id_offset=>11434424479146743
+,p_default_owner=>'WKSP_WKSPHEARCLEAN'
 );
 end;
 /
  
-prompt APPLICATION 102 - Testes
+prompt APPLICATION 100 - Clínica Auditiva Hear Clean
 --
 -- Application Export:
---   Application:     102
---   Name:            Testes
---   Date and Time:   12:42 Tuesday February 24, 2026
---   Exported By:     TESTES
+--   Application:     100
+--   Name:            Clínica Auditiva Hear Clean
+--   Date and Time:   12:53 Tuesday February 24, 2026
+--   Exported By:     ADMIN
 --   Flashback:       0
 --   Export Type:     Component Export
 --   Manifest
---     PLUGIN: 104032141456232533
+--     PLUGIN: 154387612373963215
 --   Manifest End
 --   Version:         24.2.13
---   Instance ID:     7626431248009042
+--   Instance ID:     7854098578292842
 --
 
 begin
@@ -52,7 +52,7 @@ end;
 prompt --application/shared_components/plugins/dynamic_action/ig_quick_switch
 begin
 wwv_flow_imp_shared.create_plugin(
- p_id=>wwv_flow_imp.id(104032141456232533)
+ p_id=>wwv_flow_imp.id(154387612373963215)
 ,p_plugin_type=>'DYNAMIC ACTION'
 ,p_name=>'IG_QUICK_SWITCH'
 ,p_display_name=>'IG Quick Switch'
@@ -89,8 +89,8 @@ wwv_flow_imp_shared.create_plugin(
 ,p_files_version=>34
 );
 wwv_flow_imp_shared.create_plugin_attribute(
- p_id=>wwv_flow_imp.id(53882189563194591)
-,p_plugin_id=>wwv_flow_imp.id(104032141456232533)
+ p_id=>wwv_flow_imp.id(104237660480925273)
+,p_plugin_id=>wwv_flow_imp.id(154387612373963215)
 ,p_attribute_scope=>'COMPONENT'
 ,p_attribute_sequence=>1
 ,p_display_sequence=>10
@@ -122,8 +122,8 @@ end;
 /
 begin
 wwv_flow_imp_shared.create_plugin_file(
- p_id=>wwv_flow_imp.id(26971342250989623)
-,p_plugin_id=>wwv_flow_imp.id(104032141456232533)
+ p_id=>wwv_flow_imp.id(77326813168720305)
+,p_plugin_id=>wwv_flow_imp.id(154387612373963215)
 ,p_file_name=>'switch.min.css'
 ,p_mime_type=>'text/css'
 ,p_file_charset=>'utf-8'
@@ -154,8 +154,8 @@ end;
 /
 begin
 wwv_flow_imp_shared.create_plugin_file(
- p_id=>wwv_flow_imp.id(26974946037005231)
-,p_plugin_id=>wwv_flow_imp.id(104032141456232533)
+ p_id=>wwv_flow_imp.id(77330416954735913)
+,p_plugin_id=>wwv_flow_imp.id(154387612373963215)
 ,p_file_name=>'switch.min.js'
 ,p_mime_type=>'text/javascript'
 ,p_file_charset=>'utf-8'
@@ -229,8 +229,8 @@ end;
 /
 begin
 wwv_flow_imp_shared.create_plugin_file(
- p_id=>wwv_flow_imp.id(104033419308283232)
-,p_plugin_id=>wwv_flow_imp.id(104032141456232533)
+ p_id=>wwv_flow_imp.id(154388890226013914)
+,p_plugin_id=>wwv_flow_imp.id(154387612373963215)
 ,p_file_name=>'switch.js'
 ,p_mime_type=>'text/javascript'
 ,p_file_charset=>'utf-8'
@@ -263,8 +263,8 @@ end;
 /
 begin
 wwv_flow_imp_shared.create_plugin_file(
- p_id=>wwv_flow_imp.id(104034699915286101)
-,p_plugin_id=>wwv_flow_imp.id(104032141456232533)
+ p_id=>wwv_flow_imp.id(154390170833016783)
+,p_plugin_id=>wwv_flow_imp.id(154387612373963215)
 ,p_file_name=>'switch.css'
 ,p_mime_type=>'text/css'
 ,p_file_charset=>'utf-8'
