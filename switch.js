@@ -59,13 +59,11 @@ function inicializarIgSwitch(colunasAlvoStr) {
                         pColunas.forEach(function (colNome) {
                             var fieldMeta = model.getFieldKey(colNome);
                             if (fieldMeta) {
-                                // Deixa o APEX processar os defaults nativos do Switch primeiro
-                                setTimeout(function () {
-                                    var val = model.getValue(newRecord, colNome);
-                                    if (val === null || val === undefined || val === '' || val === 'N') {
-                                        model.setValue(newRecord, colNome, 'S');
-                                    }
-                                }, 10);
+                                var val = model.getValue(newRecord, colNome);
+                                // Se a nova linha veio vazia ou nula (Comportamento 'Text Field'), escreve 'S'
+                                if (val === null || val === undefined || val === '') {
+                                    model.setValue(newRecord, colNome, 'S');
+                                }
                             }
                         });
                     }
