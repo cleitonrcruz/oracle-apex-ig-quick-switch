@@ -1,7 +1,9 @@
 # 📖 Documentação: Plug-in IG Quick Switch (Oracle APEX)
 
 **Objetivo:** Este guia explica como importar e utilizar o plug-in "IG Quick Switch". Este plug-in permite que uma coluna nativa ('S' ou 'N') seja convertida automaticamente num botão Switch clicável e animado.
-![Demonstração do Plug-in IG Quick Switch](ig_quick_switch.gif)
+<p align="center">
+  <img src="ig_quick_switch.gif" width="400" alt="Demonstração do Plug-in IG Quick Switch">
+</p>
 ---
 
 ## 📥 Etapa 1: Instalação do Plug-in
