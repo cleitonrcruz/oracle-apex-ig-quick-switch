@@ -17,7 +17,7 @@ function inicializarIgSwitch(colunasAlvoStr) {
 
         $('body').on('click', '.clica-switch', function (e) {
             e.preventDefault();
-            e.stopPropagation(); // Impede a grelha de entrar em modo de edição!
+            e.stopPropagation(); // Impede a IG de entrar em modo de edição!
 
             var $btn = $(this);
             var idDaRegiao = $btn.closest('.a-IG').parent().attr('id');
@@ -28,7 +28,7 @@ function inicializarIgSwitch(colunasAlvoStr) {
             var nomeColuna = $btn.data('coluna');
 
             if (record && nomeColuna) {
-                // Impede múltiplos cliques enquanto anima
+                // Impede múltiplos cliques enquanto faz a animação
                 if ($btn.hasClass('is-animating')) return;
                 $btn.addClass('is-animating');
 
@@ -39,8 +39,6 @@ function inicializarIgSwitch(colunasAlvoStr) {
                 $btn.removeClass('status-S status-N').addClass('status-' + novoValor);
 
                 // Aguarda 300ms antes de atualizar o "Oracle APEX model"
-                // Motivo: O APEX destrói o HTML da célula e redesenha-o IMEDIATAMENTE ao fazer setValue.
-                // Precisamos deste atraso para a animação CSS ter tempo de ser vista na íntegra.
                 setTimeout(function () {
                     model.setValue(record, nomeColuna, novoValor);
                 }, 300);
@@ -50,8 +48,7 @@ function inicializarIgSwitch(colunasAlvoStr) {
 
 
 
-    // 2. Injetar o cellTemplate na grelha 
-    // Utilizamos execução IMEDIATA + fallback de Polling ultra-rápido para evitar o "piscar" visual (FOUC).
+    // 2. Injetar o cellTemplate na IG 
     $('.a-IG').each(function () {
         var regionId = $(this).parent().attr('id');
 
@@ -66,12 +63,9 @@ function inicializarIgSwitch(colunasAlvoStr) {
             if (viewGrid && viewGrid.view$) {
                 var columns = viewGrid.view$.grid('getColumns');
                 var modificou = false;
-
-                // Extrai as meta-opções dos campos do modelo do APEX
                 var modelFields = viewGrid.model.getOption("fields");
 
                 colunas.forEach(function (colNome) {
-                    // Força o valor 'S' nativamente no dicionário de Defaults do motor APEX
                     if (modelFields && modelFields[colNome]) {
                         modelFields[colNome].defaultValue = 'S';
                     }
@@ -84,7 +78,6 @@ function inicializarIgSwitch(colunasAlvoStr) {
                 });
 
                 if (modificou) {
-                    // Agendamos o refresh apenas das linhas de dados (evita desalinhar o cabeçalho 'stickyWidget')
                     setTimeout(function () {
                         try {
                             viewGrid.view$.grid("refresh");
@@ -92,14 +85,13 @@ function inicializarIgSwitch(colunasAlvoStr) {
                     }, 50);
                 }
 
-                return true; // Sucesso / Já estava processado
+                return true;
             }
             return false;
         }
 
-        // Tenta aplicar o template IMEDIATAMENTE (antes da query chegar do backend)
         if (!aplicarTemplate()) {
-            // Se a grelha for pesada/adormecida: polling furioso a 20ms c/ safety timeout (1.5 seg)
+            // Se a query da IG for pesada.
             var tentativas = 0;
             var intervalId = setInterval(function () {
                 tentativas++;

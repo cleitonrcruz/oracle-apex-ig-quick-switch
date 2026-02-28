@@ -30,7 +30,7 @@
 /* 3. Estilo de quando está Ligado (Valor = S) */
 .meu-switch-visual.status-S {
     background-color: #005fcc;
-    /* Cor azul clássica do APEX */
+    /* Cor azul do APEX */
     box-shadow: inset 0 0 0 1px #005fcc;
 }
 
@@ -51,7 +51,7 @@
     font-family: Arial, sans-serif;
 }
 
-/* 6. Escreve o texto "OFF" dentro do botão cinza (Mesmo se nulo/vazio) */
+/* 6. Escreve o texto "OFF" dentro do botão cinza */
 .meu-switch-visual.status-N::before,
 .meu-switch-visual.status-\.::before,
 .meu-switch-visual:not(.status-S):not(.status-N)::before {
