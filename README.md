@@ -43,5 +43,4 @@ Esta é a coluna que vem da tua Interactive Grid (ex: `ATIVO`).
 Foi desenvolvido e é mantido por **Cleiton Cruz**. Se tens alguma dúvida, elogio, ou sugestão de melhoria, não hesites em contactar:
 
 * ✉️ **Email:** cleiton.rcruz@gmail.com
-* 📱 **WhatsApp:** +55 (61) 9 8224-3863
 * 🔗 **LinkedIn:** [Conecta-te comigo no LinkedIn](https://www.linkedin.com/in/cleiton-cruz-705373118/)
