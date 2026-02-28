@@ -1,9 +1,7 @@
 # 📖 Documentação: Plug-in IG Quick Switch (Oracle APEX)
 
-**Objetivo:** Este Plug-in foi desenhado para maximizar a produtividade e experiência de utilizador em projetos **Oracle APEX**, eliminando *workarounds* pesados de código HTML manual em frente aos Data Models.
-
-Este guia explica como importar e utilizar o plug-in "IG Quick Switch". Este plug-in permite que uma coluna nativa ('S' ou 'N') seja convertida automaticamente num botão Switch clicável e animado, alterando os dados diretamente no modo de leitura (Read-Only) de um Interactive Grid.
-
+**Objetivo:** Este guia explica como importar e utilizar o plug-in "IG Quick Switch". Este plug-in permite que uma coluna nativa ('S' ou 'N') seja convertida automaticamente num botão Switch clicável e animado,
+![Demonstração do Plug-in IG Quick Switch](ig_quick_switch.gif)
 ---
 
 ## 📥 Etapa 1: Instalação do Plug-in
